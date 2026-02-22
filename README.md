@@ -3,7 +3,7 @@
 This project considers a 5x5 PD-World grid and aims to demonstrate reinforcement learning concepts through implementation of Q-learning and SARSA. 
 
 ## Dependencies and Build
-Requires no external libraries, built with CMake, and consists of purely C++ code, so it requires a C++17 compiler. Specfically, it can be run with the terminal commands:
+Requires a C++17 compiler and uses [Raylib 5.5](https://www.raylib.com) for Q-table visualization. If Raylib is not found locally, CMake will automatically fetch and build it from source via FetchContent, so no manual installation is required. Can be run with the terminal commands:
 ```
 mkdir build
 cd build
@@ -28,4 +28,4 @@ The first experiment uses a Q-learning based PRANDOM policy for 4000 steps, and 
 Fixed values across all experiments include α = 0.3, γ = 0.5, initial Q-values = 0, reward for pickup/dropoff = +13, and movement penalty = -1, all as specified in the instructions.
 
 ## Output
-The program outputs short summaries after each experiment, stating number of runs, average number of operators to reach a terminal state, the number of operators it took the final run, and the final sum of rewards gained by the agent.
+The program outputs short summaries after each experiment, stating number of runs, average number of operators to reach a terminal state, the number of operators it took the final run, and the final sum of rewards gained by the agent. Also, at every policy change during an experiment, the program displays the QTable at that moment, as well as additional ones throughout.

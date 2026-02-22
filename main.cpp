@@ -7,6 +7,7 @@
 #include "World.cpp"
 #include "State.cpp"
 #include "QTable.cpp"
+#include "Visualizer.h"
 using namespace std;
 
 int main(int, char**){
@@ -42,6 +43,8 @@ int main(int, char**){
     // initalize valid actions string
     string validActions = "";
 
+    // create visualization world to display qtables (never gets updated to maintain most frequently visited state space)
+    World visualw(gridworld);
 
 
     // -------------------------------------------- [EXPERIMENT 1] --------------------------------------------
@@ -52,6 +55,8 @@ int main(int, char**){
     vector<int> numOperatorsUsed_e1;
     int numOperators_e1 = 0;
     double rewardSum_e1 = 0;
+
+    visualizeQTable(qt_e1, visualw, false, "Experiment 1 - After 0 Steps");
 
     // --------------------- RANDOM POLICY FOR 4000 STEPS ---------------------
     for (int i = 0; i < 4000; i++) {
@@ -99,6 +104,8 @@ int main(int, char**){
         // reset valid actions
         validActions = "";
     }
+
+    visualizeQTable(qt_e1, visualw, false, "Experiment 1 - After 4000 Steps");
 
     // --------------------- GREEDY POLICY FOR 4000 STEPS ---------------------
     for (int i = 0; i < 4000; i++) {
@@ -153,6 +160,8 @@ int main(int, char**){
     cout << "The final run took " << numOperatorsUsed_e1[numOperatorsUsed_e1.size() - 1] << " operators to reach a terminal state." << endl;
     cout << "The final sum of rewards gained by the agent was " << rewardSum_e1 << "." << endl;
 
+    visualizeQTable(qt_e1, visualw, false, "Experiment 1 - After 8000 Steps");
+
 
     
     // -------------------------------------------- [RESET] -------------------------------------------- 
@@ -171,6 +180,8 @@ int main(int, char**){
     double rewardSum_e2 = 0;
     // random number generator from 0.0 to 1.0 to be used by exploit policy
     uniform_real_distribution<> dis(0.0, 1.0);
+
+    visualizeQTable(qt_e2, visualw, false, "Experiment 2 - After 0 Steps");
 
     // --------------------- RANDOM POLICY FOR 200 STEPS ---------------------
     for (int i = 0; i < 200; i++) {
@@ -218,6 +229,8 @@ int main(int, char**){
         // reset valid actions
         validActions = "";
     }
+
+    visualizeQTable(qt_e2, visualw, false, "Experiment 2 - After 200 Steps");
 
     // --------------------- EXPLOIT POLICY FOR 7800 STEPS ---------------------
     for (int i = 0; i < 7800; i++) {
@@ -271,6 +284,9 @@ int main(int, char**){
 
         // reset valid actions
         validActions = "";
+        if (i == 4000) {
+            visualizeQTable(qt_e2, visualw, false, "Experiment 2 - After 4000 Steps");
+        }
     }
 
     int sum_e2 = accumulate(numOperatorsUsed_e2.begin(), numOperatorsUsed_e2.end(), 0);
@@ -278,6 +294,8 @@ int main(int, char**){
     cout << "On average, it took " << sum_e2/numOperatorsUsed_e2.size() << " operators to reach a terminal state." << endl;
     cout << "The final run took " << numOperatorsUsed_e2[numOperatorsUsed_e2.size() - 1] << " operators to reach a terminal state." << endl;
     cout << "The final sum of rewards gained by the agent was " << rewardSum_e2 << "." << endl;
+
+    visualizeQTable(qt_e2, visualw, false, "Experiment 2 - After 8000 Steps");
 
 
 
@@ -295,6 +313,8 @@ int main(int, char**){
     vector<int> numOperatorsUsed_e3;
     int numOperators_e3 = 0;
     double rewardSum_e3 = 0;
+
+    visualizeQTable(qt_e3, visualw, false, "Experiment 3 - After 0 Steps");
 
     // --------------------- RANDOM POLICY FOR 200 STEPS ---------------------
     // SARSA: pre-select the first action before entering the loop
@@ -364,6 +384,8 @@ int main(int, char**){
         chosenAction_e3 = nextAction_e3;
     }
 
+    visualizeQTable(qt_e3, visualw, false, "Experiment 3 - After 200 Steps");
+
     // --------------------- EXPLOIT POLICY FOR 7800 STEPS ---------------------
     // SARSA: chosenAction_e3 is already carried forward from the PRANDOM phase
     for (int i = 0; i < 7800; i++) {
@@ -421,6 +443,9 @@ int main(int, char**){
         sarsa_state = nextState;
         validActions = nextValidActions;
         chosenAction_e3 = nextAction_e3;
+        if (i == 4000) {
+            visualizeQTable(qt_e3, visualw, false, "Experiment 3 - After 4000 Steps");
+        }
     }
 
     int sum_e3 = accumulate(numOperatorsUsed_e3.begin(), numOperatorsUsed_e3.end(), 0);
@@ -428,4 +453,6 @@ int main(int, char**){
     cout << "On average, it took " << sum_e3/numOperatorsUsed_e3.size() << " operators to reach a terminal state." << endl;
     cout << "The final run took " << numOperatorsUsed_e3[numOperatorsUsed_e3.size() - 1] << " operators to reach a terminal state." << endl;
     cout << "The final sum of rewards gained by the agent was " << rewardSum_e3 << "." << endl;
+
+    visualizeQTable(qt_e3, visualw, false, "Experiment 3 - After 8000 Steps");
 }
