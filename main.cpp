@@ -8,6 +8,7 @@
 #include "State.cpp"
 #include "QTable.cpp"
 #include "Visualizer.h"
+#include "Logger.h"
 using namespace std;
 
 int main(int, char**){
@@ -55,6 +56,8 @@ int main(int, char**){
     vector<int> numOperatorsUsed_e1;
     int numOperators_e1 = 0;
     double rewardSum_e1 = 0;
+    // create logger
+    Logger log_e1("e1_reward.csv", "e1_operators.csv");
 
     visualizeQTable(qt_e1, visualw, false, "Experiment 1 - After 0 Steps");
 
@@ -62,6 +65,8 @@ int main(int, char**){
     for (int i = 0; i < 4000; i++) {
         if (w.isTerminal()) {
             numOperatorsUsed_e1.push_back(numOperators_e1);
+            // log operators used
+            log_e1.logRun(numOperators_e1);
             numOperators_e1 = 0;
             w.resetWorld();
             a.resetAgent();
@@ -93,6 +98,9 @@ int main(int, char**){
         }
         rewardSum_e1 += reward;
 
+        // log reward
+        log_e1.logStep(reward);
+
         // next state
         s.updateState(a, w);
         int nextState = s.encode();
@@ -111,6 +119,8 @@ int main(int, char**){
     for (int i = 0; i < 4000; i++) {
         if (w.isTerminal()) {
             numOperatorsUsed_e1.push_back(numOperators_e1);
+            // log operators used
+            log_e1.logRun(numOperators_e1);
             numOperators_e1 = 0;
             w.resetWorld();
             a.resetAgent();
@@ -142,6 +152,9 @@ int main(int, char**){
         }
         rewardSum_e1 += reward;
 
+        // log reward
+        log_e1.logStep(reward);
+
         // next state
         s.updateState(a, w);
         int nextState = s.encode();
@@ -162,7 +175,6 @@ int main(int, char**){
 
     visualizeQTable(qt_e1, visualw, false, "Experiment 1 - After 8000 Steps");
 
-
     
     // -------------------------------------------- [RESET] -------------------------------------------- 
     w.resetWorld();
@@ -181,12 +193,17 @@ int main(int, char**){
     // random number generator from 0.0 to 1.0 to be used by exploit policy
     uniform_real_distribution<> dis(0.0, 1.0);
 
+    // create logger
+    Logger log_e2("e2_reward.csv", "e2_operators.csv");
+
     visualizeQTable(qt_e2, visualw, false, "Experiment 2 - After 0 Steps");
 
     // --------------------- RANDOM POLICY FOR 200 STEPS ---------------------
     for (int i = 0; i < 200; i++) {
         if (w.isTerminal()) {
             numOperatorsUsed_e2.push_back(numOperators_e2);
+            // log operators used
+            log_e2.logRun(numOperators_e2);
             numOperators_e2 = 0;
             w.resetWorld();
             a.resetAgent();
@@ -218,6 +235,9 @@ int main(int, char**){
         }
         rewardSum_e2 += reward;
 
+        // log reward
+        log_e2.logStep(reward);
+
         // next state
         s.updateState(a, w);
         int nextState = s.encode();
@@ -236,6 +256,8 @@ int main(int, char**){
     for (int i = 0; i < 7800; i++) {
         if (w.isTerminal()) {
             numOperatorsUsed_e2.push_back(numOperators_e2);
+            // log operators used
+            log_e2.logRun(numOperators_e2);
             numOperators_e2 = 0;
             w.resetWorld();
             a.resetAgent();
@@ -273,6 +295,9 @@ int main(int, char**){
             reward = 13;
         }
         rewardSum_e2 += reward;
+
+        // log reward
+        log_e2.logStep(reward);
 
         // next state
         s.updateState(a, w);
@@ -314,6 +339,9 @@ int main(int, char**){
     int numOperators_e3 = 0;
     double rewardSum_e3 = 0;
 
+    // create logger
+    Logger log_e3("e3_reward.csv", "e3_operators.csv");
+
     visualizeQTable(qt_e3, visualw, false, "Experiment 3 - After 0 Steps");
 
     // --------------------- RANDOM POLICY FOR 200 STEPS ---------------------
@@ -334,6 +362,8 @@ int main(int, char**){
     for (int i = 0; i < 200; i++) {
         if (w.isTerminal()) {
             numOperatorsUsed_e3.push_back(numOperators_e3);
+            // log operators used
+            log_e3.logRun(numOperators_e3);
             numOperators_e3 = 0;
             w.resetWorld();
             a.resetAgent();
@@ -358,6 +388,9 @@ int main(int, char**){
         double reward = -1;
         if (chosenAction_e3 == 'p' || chosenAction_e3 == 'd') reward = 13;
         rewardSum_e3 += reward;
+
+        // log reward
+        log_e3.logStep(reward);
 
         // next state
         s.updateState(a, w);
@@ -391,6 +424,8 @@ int main(int, char**){
     for (int i = 0; i < 7800; i++) {
         if (w.isTerminal()) {
             numOperatorsUsed_e3.push_back(numOperators_e3);
+            // log operators used
+            log_e3.logRun(numOperators_e3);
             numOperators_e3 = 0;
             w.resetWorld();
             a.resetAgent();
@@ -417,6 +452,9 @@ int main(int, char**){
         double reward = -1;
         if (chosenAction_e3 == 'p' || chosenAction_e3 == 'd') reward = 13;
         rewardSum_e3 += reward;
+
+        // log reward
+        log_e3.logStep(reward);
 
         // next state
         s.updateState(a, w);
